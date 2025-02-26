@@ -1,52 +1,128 @@
 const Owner = require('../model/OwnerSchema.model');
+const multer = require('multer');
+const path = require('path');
+
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'uploads/');
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname));
+  },
+});
+
+const upload = multer({ storage }).single('logo');
 
 // Add a new owner
 const addOwner = async (req, res) => {
-  try {
-    const { 
-      logo,
-      companyName,
-      ownerName,
-      contactNumber,
-      emailAddress,
-      website,
-      businessRegistration, // Corrected spelling
-      companyType,
-      employeeSize,
-      panNumber,
-      documentType,
-      gstNumber,
-      udhayamAadhar,
-      stateCertificate,
-      incorporationCertificate
-    } = req.body;
+  upload(req, res, async (err) => {
+    if (err) {
+      console.error('Multer Error:', err); // Log multer-specific errors
+      return res.status(400).json({ message: 'Error uploading file', error: err.message });
+    }
 
-    const newOwner = new Owner({
-      logo,
-      companyName,
-      ownerName,
-      contactNumber,
-      emailAddress,
-      website,
-      businessRegistration,
-      companyType,
-      employeeSize,
-      panNumber,
-      documentType,
-      gstNumber,
-      udhayamAadhar,
-      stateCertificate,
-      incorporationCertificate,
-      dataFilled: true // Save the flag in the database
-    });
+    try {
+      const {
+        companyName,
+        ownerName,
+        contactNumber,
+        emailAddress,
+        website,
+        businessRegistration,
+        companyType,
+        employeeSize,
+        panNumber,
+        documentType,
+        documentNumber,
+      } = req.body;
 
-    await newOwner.save();
-    res.status(201).json({ message: 'Owner added successfully', data: newOwner, datafilled:true });
-  } catch (error) {
-    console.error('Backend Error:', error); // Log server error
-    res.status(400).json({ message: 'Error adding owner', error: error.message });
-  }
+      const logoPath = req.file ? req.file.path : null;
+
+      console.log('Received Data:', {
+        companyName,
+        ownerName,
+        contactNumber,
+        emailAddress,
+        website,
+        businessRegistration,
+        companyType,
+        employeeSize,
+        panNumber,
+        documentType,
+        documentNumber,
+        logoPath,
+      });
+
+      const newOwner = new Owner({
+        logo: logoPath,
+        companyName,
+        ownerName,
+        contactNumber,
+        emailAddress,
+        website,
+        businessRegistration,
+        companyType,
+        employeeSize,
+        panNumber,
+        documentType,
+        documentNumber,
+        dataFilled: true,
+      });
+
+      await newOwner.save();
+      res.status(201).json({ message: 'Owner added successfully', data: newOwner, datafilled: true });
+    } catch (error) {
+      console.error('Backend Error:', error); // Log the full error
+      res.status(400).json({ message: 'Error adding owner', error: error.message });
+    }
+  });
 };
+// const addOwner = async (req, res) => {
+//   try {
+//     const { 
+//       logo,
+//       companyName,
+//       ownerName,
+//       contactNumber,
+//       emailAddress,
+//       website,
+//       businessRegistration,
+//       companyType,
+//       employeeSize,
+//       panNumber,
+//       documentType,
+//       gstNumber,
+//       udhayamAadhar,
+//       stateCertificate,
+//       incorporationCertificate
+//     } = req.body;
+
+//     const newOwner = new Owner({
+//       logo,
+//       companyName,
+//       ownerName,
+//       contactNumber,
+//       emailAddress,
+//       website,
+//       businessRegistration,
+//       companyType,
+//       employeeSize,
+//       panNumber,
+//       documentType,
+//       gstNumber,
+//       udhayamAadhar,
+//       stateCertificate,
+//       incorporationCertificate,
+//       dataFilled: true // Save the flag in the database
+//     });
+
+//     await newOwner.save();
+//     res.status(201).json({ message: 'Owner added successfully', data: newOwner, datafilled:true });
+//   } catch (error) {
+//     console.error('Backend Error:', error); // Log server error
+//     res.status(400).json({ message: 'Error adding owner', error: error.message });
+//   }
+// };
 
 
 // Update an existing owner

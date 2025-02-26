@@ -189,7 +189,7 @@ const data = {
         },
         {
           title: "Email",
-          url: "",
+          url: "/complaint/complaintEmail",
         },
       ],
     },

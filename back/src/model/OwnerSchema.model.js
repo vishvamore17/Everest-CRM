@@ -1,70 +1,53 @@
 const mongoose = require('mongoose');
 
-// Define the Owner schema
 const ownerSchema = new mongoose.Schema(
   {
     logo: {
-      type:String
+      type: String, // Store the file path or URL of the logo
     },
     companyName: {
-      type:String
+      type: String,
     },
     ownerName: {
-      type:String
+      type: String,
     },
     contactNumber: {
-      type:String
+      type: String,
     },
     emailAddress: {
-      type:String
+      type: String,
     },
     website: {
-      type:String
+      type: String,
     },
-    businessRegistration: {
-      type:String,
-      enum: ["Sole proprietorship" , "One person Company","Parternship","Private Limited"],
+    documentType: {
+      type: String,
+      enum: ["GST Number", "UdhyamAadhar Number", "State Certificate", "Certificate of Incorporation"],
     },
-    companyType: {
-      type:String,
-    },
-    employeeSize: {
-      type:String, 
-      enum:["1-10","11-50","51-100",">100"],
+    documentNumber: {
+      type: String,
     },
     panNumber: {
-      type:String
+      type: String,
     },
-    documentType:{
-    type:String,
-    required:true,
-    enum:["GST Number","UdhayamAadhar Number","State Certificate", "Certificate of Incorporation"],
-    description:"Type of document selected"
-   },
-   gstNumber:{
-    type:String,
-   },
-
-   udhayamAadhar :{
-    type:String,
-   },
-
-   stateCertificate:{
-    type:String,
-   },
-
-   incorporationCertificate:{
-    type:String,
-     },
-     dataFilled: { type: Boolean, default: true }, // Adding the flag to the schema
-
+    companyType: {
+      type: String,
+    },
+    employeeSize: {
+      type: String,
+      enum: ["1-10", "11-50", "51-100", ">100"],
+    },
+    businessRegistration: {
+      type: String,
+      enum: ["Sole proprietorship", "One person Company", "Partnership", "Private Limited"],
+    },
+    dataFilled: {
+      type: Boolean,
+    },
   },
   { timestamps: true }
 );
 
-
-
-
-const Owner = mongoose.model('Owner', ownerSchema); 
+const Owner = mongoose.model('Owner', ownerSchema);
 
 module.exports = Owner;
