@@ -121,7 +121,7 @@ const login = async (req, res) => {
             token: newToken,
             email:user.email,
             userId:user._id,
-            redirectTo: isFirstLogin ? "/Profile" : "/Dashboard"  // Return the page to redirect to
+            redirectTo: isFirstLogin ? "/Profile" : "/dashboard"  // Return the page to redirect to
         });
 
     } catch (error) {

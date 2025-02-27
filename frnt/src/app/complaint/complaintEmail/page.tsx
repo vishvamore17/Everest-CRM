@@ -106,8 +106,6 @@ const handleRemoveAttachment = (index: number) => {
                         <Separator orientation="vertical" className="h-6 mx-2" />
                         <Breadcrumb>
                             <BreadcrumbList>
-                                <BreadcrumbItem><BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink></BreadcrumbItem>
-                                <BreadcrumbSeparator />
                                 <BreadcrumbItem><BreadcrumbLink href="/complaint">Complaint</BreadcrumbLink></BreadcrumbItem>
                                 <BreadcrumbSeparator />
                                 <BreadcrumbItem><BreadcrumbPage>Email</BreadcrumbPage></BreadcrumbItem>

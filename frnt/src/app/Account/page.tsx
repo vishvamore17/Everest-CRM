@@ -24,8 +24,8 @@ export default function CertificatePage() {
                         <Breadcrumb>
                             <BreadcrumbList>
                                 <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="/dashboard">
-                                        Dashboard
+                                    <BreadcrumbLink href="/Account">
+                                        Acccounnt
                                     </BreadcrumbLink>
                                     <BreadcrumbLink href="/Account">
                                    

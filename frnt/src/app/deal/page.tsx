@@ -23,14 +23,7 @@ export default function CertificatePage() {
                         <Separator orientation="vertical" className="mr-2 h-4"/>
                         <Breadcrumb>
                             <BreadcrumbList>
-                                <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="/dashboard">
-                                        Dashboard
-                                    </BreadcrumbLink>
-                                    <BreadcrumbLink href="/deal">
-                                   
-                                    </BreadcrumbLink>
-                                </BreadcrumbItem>
+    
                                 <BreadcrumbSeparator className="hidden md:block"/>
                                 <BreadcrumbItem>
                                     <BreadcrumbPage>Deal</BreadcrumbPage>

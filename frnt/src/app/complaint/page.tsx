@@ -27,11 +27,7 @@ export default function CertificatePage() {
                         <Breadcrumb>
                             <BreadcrumbList>
                                 <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="/dashboard">
-                                        Dashboard
-                                    </BreadcrumbLink>
                                     <BreadcrumbLink href="/complaint">
-                                   
                                     </BreadcrumbLink>
                                 </BreadcrumbItem>
                                 <BreadcrumbSeparator className="hidden md:block"/>

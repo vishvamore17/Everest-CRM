@@ -125,12 +125,8 @@ export default function LeadForm() {
             <Breadcrumb>
               <BreadcrumbList className="flex items-center space-x-2">
                 <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Drag & Drop</BreadcrumbPage>
-                </BreadcrumbItem>
+                  <BreadcrumbLink href="/lead">Lead</BreadcrumbLink>
+                </BreadcrumbItem>              
               </BreadcrumbList>
             </Breadcrumb>
             <div className="flex-1 flex justify-end space-x-4 mr-10">

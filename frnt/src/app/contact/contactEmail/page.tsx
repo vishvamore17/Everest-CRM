@@ -212,9 +212,6 @@ const EmailInput: React.FC = () => {
                         <Separator orientation="vertical" className="h-6 mx-2" />
                         <Breadcrumb>
                             <BreadcrumbList className="flex items-center space-x-2">
-                                <BreadcrumbItem className="hidden md:block">
-                                    <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
-                                </BreadcrumbItem>
                                 <BreadcrumbSeparator className="hidden md:block" />
                                 <BreadcrumbItem className="hidden md:block">
                                     <BreadcrumbLink href="/contact">Contact</BreadcrumbLink>

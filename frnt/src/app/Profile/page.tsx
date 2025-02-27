@@ -94,7 +94,7 @@ const NewProfile: React.FC = () => {
         title: 'Profile Created',
         description: `Your profile has been created successfully.`,
       });
-      router.push('/');
+      router.push('/dashboard');
     } catch (error) {
       toast({
         title: 'Error',

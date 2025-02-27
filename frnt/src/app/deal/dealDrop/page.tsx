@@ -140,7 +140,7 @@ export default function App() {
                <Breadcrumb>
                  <BreadcrumbList className="flex items-center space-x-2">
                    <BreadcrumbItem className="hidden md:block">
-                     <BreadcrumbLink href="/dashboard">Dashboard</BreadcrumbLink>
+                     <BreadcrumbLink href="/deal">Deal</BreadcrumbLink>
                    </BreadcrumbItem>
                    <BreadcrumbSeparator className="hidden md:block" />
                    <BreadcrumbItem>
