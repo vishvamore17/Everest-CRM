@@ -235,7 +235,7 @@ export default function Page() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 dark:bg-gray-900 p-4">
+    <div className="min-h-screen flex items-center justify-center  p-4">
       {loading ? (
         <div className="flex items-center justify-center">
           <LuLoader  className="animate-spin text-gray-600 dark:text-gray-300" size={50} />

@@ -119,8 +119,9 @@ const NewProfile: React.FC = () => {
                 Logo
                 <br />
                 <img
-                  
-                  style={{ width: '80px', height: '80px', borderRadius: '50%', border: '1px solid #ccc' }}
+                 src={logoPreview || 'https://via.placeholder.com/80'}
+                 style={{ width: '80px', height: '80px', borderRadius: '50%', border: '1px solid #ccc' }}
+                 alt="Logo Preview"
                 />
               </label>
               <input

@@ -12,6 +12,7 @@ import {
   GalleryVerticalEnd,
   HandCoins,
   Handshake,
+  LayoutDashboard,
   ReceiptText,
   ScrollText,
   Settings,
@@ -57,6 +58,12 @@ const data = {
     },
   ],
   navMain: [
+    {
+      title: "Dashboard",
+      url: "/dashboard",
+      icon: LayoutDashboard,
+      isActive: window.location.pathname === "",
+    },
     {
       title: "Lead",
       url: "#",

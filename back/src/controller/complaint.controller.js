@@ -145,14 +145,13 @@ const transporter = nodemailer.createTransport({
 
 
 const sendEmailComplaint = async (req, res) => {
-
-  const { to, subject, message } = req.body;
+  const { to, subject = "(No Subject)", message = "(No Message)" } = req.body; // Provide default values
   const attachments = req.files; // Get uploaded files
 
-  if (!to || !subject || !message) {
+  if (!to) {
       return res.status(400).json({
           success: false,
-          message: "All fields (to, subject, message) are required.",
+          message: "The recipient's email (to) is required.",
       });
   }
 
@@ -160,12 +159,14 @@ const sendEmailComplaint = async (req, res) => {
       const mailOptions = {
           from: "purvagalani@gmail.com",
           to: to,
-          subject: subject,
-          html: message,
-          attachments: attachments.map(file => ({
-              filename: file.originalname,
-              path: file.path
-          }))
+          subject: subject || "(No Subject)", // Use default if empty
+          html: message || "(No Message)", // Use default if empty
+          attachments: attachments
+              ? attachments.map(file => ({
+                    filename: file.originalname,
+                    path: file.path,
+                }))
+              : [], // Handle case where there are no attachments
       };
 
       transporter.sendMail(mailOptions, (error, info) => {

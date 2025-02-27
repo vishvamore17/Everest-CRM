@@ -34,7 +34,10 @@ const EmailInput: React.FC = () => {
             setAttachments([...attachments, ...Array.from(files)]);
         }
     };
-
+// Remove an attachment from the list
+const handleRemoveAttachment = (index: number) => {
+    setAttachments(attachments.filter((_, i) => i !== index));
+};
     const handleSendEmail = async () => {
         const message = messageRef.current?.innerHTML || "";
         const formData = new FormData();
@@ -54,6 +57,8 @@ const EmailInput: React.FC = () => {
             alert("Failed to send email. Please try again.");
         }
     };
+
+    
 
     const applyFormatting = (command: string, value?: string) => {
         document.execCommand(command, false, value || "");
@@ -152,9 +157,29 @@ const EmailInput: React.FC = () => {
                                 <label className="text-sm font-medium w-20">Subject:</label>
                                 <Input type="text" placeholder="Subject" value={subject} onChange={(e) => setSubject(e.target.value)} />
                             </div>
-                            <div className="border border-gray-300 rounded-md h-40 p-2 overflow-y-auto" contentEditable ref={messageRef} />
+                            <div className="border border-gray-300 rounded-md h-40 p-2 overflow-y-auto" contentEditable ref={messageRef} />  {attachments.length > 0 && (
+    <div className="mt-2 border border-gray-300 rounded-md p-2">
+        <h4 className="text-sm font-medium">Attachments:</h4>
+        <ul className="space-y-1">
+            {attachments.map((file, index) => (
+                <li key={index} className="flex justify-between items-center text-sm p-1 bg-gray-100 rounded">
+                    <span className="truncate">{file.name}</span>
+                    <button
+                        className="text-red-500 hover:text-red-700"
+                        onClick={() => handleRemoveAttachment(index)}
+                    >
+                        ❌
+                    </button>
+                </li>
+            ))}
+        </ul>
+    </div>
+)}
                             <div className="flex flex-wrap items-center gap-2 border border-gray-300 p-2 rounded-md">
+                              
                             <IoMdAttach className="text-xl cursor-pointer hover:text-gray-500" onClick={handleFileClick} />
+                            {/* Display selected files with remove option */}
+
                                 <Button variant="outline" onClick={() => applyFormatting("bold")}><MdFormatBold /></Button>
                                 <Button variant="outline" onClick={() => applyFormatting("italic")}><MdFormatItalic /></Button>
                                 <Button variant="outline" onClick={() => applyFormatting("underline")}><MdFormatUnderlined /></Button>
