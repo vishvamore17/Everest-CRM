@@ -5,7 +5,7 @@ import { ModeToggle } from "@/components/ModeToggle"
 import { Breadcrumb, BreadcrumbSeparator, BreadcrumbPage, BreadcrumbList, BreadcrumbLink, BreadcrumbItem } from "@/components/ui/breadcrumb"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { ChartConfig, ChartContainer, ChartLegend, ChartLegendContent, ChartTooltip, ChartTooltipContent } from "@/components/ui/chart"
-
+import SearchBar from '@/components/globalSearch'
 import { Separator } from "@/components/ui/separator"
 import {
   SidebarInset,
@@ -1624,6 +1624,11 @@ export default function Page() {
               </BreadcrumbList>
             </Breadcrumb>
           </div>
+          <div className="flex-1 flex justify-end space-x-4 mr-10">
+                            <div  className="w-52">
+                                <SearchBar/>
+                            </div>
+                        </div>
         </header>
         <Box sx={{ width: '100%' }}>
           <h1 className="text-2xl font-semibold mb-8 mt-4" style={{ textAlign: "center" }}>Charts</h1>
