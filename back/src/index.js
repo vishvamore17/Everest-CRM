@@ -15,6 +15,7 @@ const { storeNotification } = require('./controller/notification.controller');
 connectDB();
 
 const app = express();
+app.use('/uploads', express.static(path.join(__dirname)));
 
 // Middleware setup
 app.use(cors());
@@ -56,10 +57,14 @@ const upload = multer({
   }
 });
 
+
+// Serve static files from 'uploads' folder
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+
 // Route for file upload
 app.post('/upload', upload.single('image'), (req, res) => {
   res.send('File uploaded successfully!');
-});
+}); 
 
 // API routes
 app.use("/api/v1", routes);

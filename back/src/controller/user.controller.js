@@ -69,7 +69,7 @@ const register = async (req, res) => {
         });
 
         await user.save();
-
+        console.log(user);
         await sendVerificationCode(normalizedEmail, verificationCode);
 
         res.json({ success: true, message: "Registration successful. Please verify your email." });

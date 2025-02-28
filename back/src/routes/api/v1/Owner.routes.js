@@ -9,7 +9,7 @@ router.post("/addOwner", OwnerController.addOwner);
 router.get("/getAllOwners", OwnerController.getOwners);
 
 // Route to get a specific owner by ID
-router.get("/getOwner/:id", OwnerController.getOwnerById);
+// router.get("/getOwner/:id", OwnerController.getOwnerById);
 
 // Route to update an existing owner by ID
 router.put("/updateOwner/:id", OwnerController.updateOwner);

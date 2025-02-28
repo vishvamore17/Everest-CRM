@@ -4,7 +4,7 @@ const path = require('path');
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+    cb(null, path.join(__dirname, '../../../uploads'));
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + path.extname(file.originalname));
@@ -13,11 +13,10 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage }).single('logo');
 
-// Add a new owner
 const addOwner = async (req, res) => {
   upload(req, res, async (err) => {
     if (err) {
-      console.error('Multer Error:', err); // Log multer-specific errors
+      console.error('Multer Error:', err);
       return res.status(400).json({ message: 'Error uploading file', error: err.message });
     }
 
@@ -36,22 +35,8 @@ const addOwner = async (req, res) => {
         documentNumber,
       } = req.body;
 
-      const logoPath = req.file ? req.file.path : null;
-
-      console.log('Received Data:', {
-        companyName,
-        ownerName,
-        contactNumber,
-        emailAddress,
-        website,
-        businessRegistration,
-        companyType,
-        employeeSize,
-        panNumber,
-        documentType,
-        documentNumber,
-        logoPath,
-      });
+      // Replace backslashes with forward slashes in the logo path
+      const logoPath = req.file ? req.file.path.replace(/\\/g, '/') : null;
 
       const newOwner = new Owner({
         logo: logoPath,
@@ -72,72 +57,71 @@ const addOwner = async (req, res) => {
       await newOwner.save();
       res.status(201).json({ message: 'Owner added successfully', data: newOwner, datafilled: true });
     } catch (error) {
-      console.error('Backend Error:', error); // Log the full error
+      console.error('Backend Error:', error);
       res.status(400).json({ message: 'Error adding owner', error: error.message });
     }
   });
 };
-// const addOwner = async (req, res) => {
+
+// Update Owner API
+const updateOwner = async (req, res) => {
+  upload(req, res, async (err) => {
+    if (err) {
+      console.error("Multer Error:", err);
+      return res.status(400).json({ message: "Error uploading file", error: err.message });
+    }
+
+    try {
+      const ownerId = req.params.id;
+
+      // Fetch existing owner details
+      const existingOwner = await Owner.findById(ownerId);
+      if (!existingOwner) {
+        return res.status(404).json({ message: "Owner not found" });
+      }
+
+      // Replace backslashes with forward slashes in the new logo path
+      const logoPath = req.file ? req.file.path.replace(/\\/g, "/") : existingOwner.logo;
+
+      // Update owner details
+      const updatedData = {
+        companyName: req.body.companyName || existingOwner.companyName,
+        ownerName: req.body.ownerName || existingOwner.ownerName,
+        contactNumber: req.body.contactNumber || existingOwner.contactNumber,
+        emailAddress: req.body.emailAddress || existingOwner.emailAddress,
+        website: req.body.website || existingOwner.website,
+        businessRegistration: req.body.businessRegistration || existingOwner.businessRegistration,
+        companyType: req.body.companyType || existingOwner.companyType,
+        employeeSize: req.body.employeeSize || existingOwner.employeeSize,
+        panNumber: req.body.panNumber || existingOwner.panNumber,
+        documentType: req.body.documentType || existingOwner.documentType,
+        documentNumber: req.body.documentNumber || existingOwner.documentNumber,
+        logo: logoPath, // Use new logo if uploaded, otherwise keep existing
+      };
+
+      // Save updated owner details
+      const updatedOwner = await Owner.findByIdAndUpdate(ownerId, updatedData, { new: true });
+
+      res.status(200).json({ message: "Owner updated successfully", data: updatedOwner });
+    } catch (error) {
+      console.error("Backend Error:", error);
+      res.status(500).json({ message: "Error updating owner", error: error.message });
+    }
+  });
+};
+
+// const updateOwner = async (req, res) => {
+//   const { id } = req.params;
 //   try {
-//     const { 
-//       logo,
-//       companyName,
-//       ownerName,
-//       contactNumber,
-//       emailAddress,
-//       website,
-//       businessRegistration,
-//       companyType,
-//       employeeSize,
-//       panNumber,
-//       documentType,
-//       gstNumber,
-//       udhayamAadhar,
-//       stateCertificate,
-//       incorporationCertificate
-//     } = req.body;
-
-//     const newOwner = new Owner({
-//       logo,
-//       companyName,
-//       ownerName,
-//       contactNumber,
-//       emailAddress,
-//       website,
-//       businessRegistration,
-//       companyType,
-//       employeeSize,
-//       panNumber,
-//       documentType,
-//       gstNumber,
-//       udhayamAadhar,
-//       stateCertificate,
-//       incorporationCertificate,
-//       dataFilled: true // Save the flag in the database
-//     });
-
-//     await newOwner.save();
-//     res.status(201).json({ message: 'Owner added successfully', data: newOwner, datafilled:true });
+//     const updatedOwner = await Owner.findByIdAndUpdate(id, req.body, { new: true });
+//     if (!updatedOwner) {
+//       return res.status(404).json({ message: 'Owner not found' });
+//     }
+//     res.status(200).json({ message: 'Owner updated successfully', data: updatedOwner });
 //   } catch (error) {
-//     console.error('Backend Error:', error); // Log server error
-//     res.status(400).json({ message: 'Error adding owner', error: error.message });
+//     res.status(400).json({ message: 'Error updating owner', error: error.message });
 //   }
 // };
-
-
-// Update an existing owner
-const updateOwner = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const updatedOwner = await Owner.findByIdAndUpdate(id, req.body, { new: true });
-    if (!updatedOwner) {
-      return res.status(404).json({ message: 'Owner not found' });
-    }
-    res.status(200).json({ message: 'Owner updated successfully', data: updatedOwner });
-  } catch (error) {
-    res.status(400).json({ message: 'Error updating owner', error: error.message });
-  }
-};
 
 // Get all owners
 const getOwners = async (req, res) => {
@@ -150,18 +134,18 @@ const getOwners = async (req, res) => {
 };
 
 // Get a specific owner by ID
-const getOwnerById = async (req, res) => {
-  const { id } = req.params;
-  try {
-    const owner = await Owner.findById(id);
-    if (!owner) {
-      return res.status(404).json({ message: 'Owner not found' });
-    }
-    res.status(200).json({ message: 'Owner fetched successfully', data: owner });
-  } catch (error) {
-    res.status(400).json({ message: 'Error fetching owner', error: error.message });
-  }
-};
+// const getOwnerById = async (req, res) => {
+//   const { id } = req.params;
+//   try {
+//     const owner = await Owner.findById(id);
+//     if (!owner) {
+//       return res.status(404).json({ message: 'Owner not found' });
+//     }
+//     res.status(200).json({ message: 'Owner fetched successfully', data: owner });
+//   } catch (error) {
+//     res.status(400).json({ message: 'Error fetching owner', error: error.message });
+//   }
+// };
 
 // Delete an owner
 const deleteOwner = async (req, res) => {
@@ -211,12 +195,11 @@ const getOwnerForInvoice = async (req, res) => {
   }
 };
 
-
 module.exports = {
   addOwner,
   updateOwner,
   getOwners,
-  getOwnerById,
+  // getOwnerById,
   deleteOwner,
   getOwnerCount, 
   getOwnerForInvoice // Export the count function

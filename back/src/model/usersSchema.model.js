@@ -34,8 +34,9 @@ const usersSchema = new mongoose.Schema(
         },
         googleId: {
             type: String,
+            default: null,
             // required: true, 
-            unique: true
+            sparse: true
         },
         // isProfileComplete: { type: Boolean, default: false } // New field
 
